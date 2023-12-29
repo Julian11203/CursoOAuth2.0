@@ -1,10 +1,10 @@
 package com.cursos.api.SpringSecurityCourse.persistence.entity.util;
 
-import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 
 public enum Role {
-    ROLE_ADMINISTRATOR(Array.asList(
+    ROLE_ADMINISTRATOR(Arrays.asList(
             RolePermission.READ_ALL_PRODUCTS,
             RolePermission.READ_ONE_PRODUCT,
             RolePermission.CREATE_ONE_PRODUCT,
@@ -19,7 +19,7 @@ public enum Role {
 
             RolePermission.READ_MY_PROFILE
     )),
-    ROLE_ASSISTANT_ADMINISTRATOR(Array.asList(
+    ROLE_ASSISTANT_ADMINISTRATOR(Arrays.asList(
             RolePermission.READ_ALL_PRODUCTS,
             RolePermission.READ_ONE_PRODUCT,
             RolePermission.UPDATE_ONE_PRODUCT,
@@ -30,7 +30,7 @@ public enum Role {
 
             RolePermission.READ_MY_PROFILE
     )),
-    ROLE_CUSTOMER(Array.asList(
+    ROLE_CUSTOMER(Arrays.asList(
             RolePermission.READ_MY_PROFILE
     ));
     private List<RolePermission> permissions;
