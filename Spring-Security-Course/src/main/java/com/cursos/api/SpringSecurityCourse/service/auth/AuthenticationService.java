@@ -4,6 +4,7 @@ import com.cursos.api.SpringSecurityCourse.dto.RegisteredUser;
 import com.cursos.api.SpringSecurityCourse.dto.SaveUser;
 import com.cursos.api.SpringSecurityCourse.dto.auth.AuthenticationRequest;
 import com.cursos.api.SpringSecurityCourse.dto.auth.AuthenticationResponse;
+import com.cursos.api.SpringSecurityCourse.exception.ObjectNotFoundException;
 import com.cursos.api.SpringSecurityCourse.persistence.entity.User;
 import com.cursos.api.SpringSecurityCourse.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,5 +72,13 @@ public class AuthenticationService {
             System.out.println(e.getMessage());
             return false;
         }
+    }
+
+    public User findLoggedInUser() {
+        UsernamePasswordAuthenticationToken auth =
+                (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        String username = (String) auth.getPrincipal();
+        return userService.findOneByUsername(username)
+                .orElseThrow(() -> new ObjectNotFoundException("User not found, Username: " + username));
     }
 }
