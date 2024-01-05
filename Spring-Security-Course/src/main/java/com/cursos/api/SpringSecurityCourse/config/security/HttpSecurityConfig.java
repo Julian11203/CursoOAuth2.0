@@ -6,17 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class HttpSecurityConfig {
+
+
     @Autowired
     private AuthenticationProvider daoAuthProvider;
     @Autowired
@@ -28,9 +35,9 @@ public class HttpSecurityConfig {
                 .sessionManagement( sessMagConfig -> sessMagConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS) )
                 .authenticationProvider(daoAuthProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .authorizeHttpRequests( authReqConfig -> {
-                    buildRequestMatchers(authReqConfig);
-                } )
+//                .authorizeHttpRequests( authReqConfig -> {
+//                    buildRequestMatchersV2(authReqConfig);
+//                } )
                 .build();
         return filterChain;
     }
@@ -42,7 +49,8 @@ public class HttpSecurityConfig {
         authReqConfig.requestMatchers(HttpMethod.GET, "/products")
                 .hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
 
-        authReqConfig.requestMatchers(HttpMethod.GET, "/products/{productId}")
+//        authReqConfig.requestMatchers(HttpMethod.GET, "/products/{productId}")
+        authReqConfig.requestMatchers(RegexRequestMatcher.regexMatcher(HttpMethod.GET, "/products/[0-9]*"))
                 .hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
 
         authReqConfig.requestMatchers(HttpMethod.POST, "/products")
@@ -88,4 +96,18 @@ public class HttpSecurityConfig {
 
         authReqConfig.anyRequest().authenticated();
     }
+    private static void buildRequestMatchersV2(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authReqConfig) {
+
+
+        /*
+        Autorizacion de endpoints publicos
+         */
+
+        authReqConfig.requestMatchers(HttpMethod.POST, "/customers").permitAll();
+        authReqConfig.requestMatchers(HttpMethod.POST, "/auth/authenticate").permitAll();
+        authReqConfig.requestMatchers(HttpMethod.GET, "/auth/validate-token").permitAll();
+
+        authReqConfig.anyRequest().authenticated();
+    }
+
 }

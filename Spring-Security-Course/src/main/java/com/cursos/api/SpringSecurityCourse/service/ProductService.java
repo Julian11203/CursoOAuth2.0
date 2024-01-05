@@ -4,6 +4,7 @@ import com.cursos.api.SpringSecurityCourse.dto.SaveProduct;
 import com.cursos.api.SpringSecurityCourse.persistence.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.Optional;
 
