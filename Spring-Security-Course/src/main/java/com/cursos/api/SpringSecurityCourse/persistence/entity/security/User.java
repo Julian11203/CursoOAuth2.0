@@ -1,7 +1,6 @@
-package com.cursos.api.SpringSecurityCourse.persistence.entity;
+package com.cursos.api.SpringSecurityCourse.persistence.entity.security;
 
-import com.cursos.api.SpringSecurityCourse.persistence.entity.util.Role;
-import com.cursos.api.SpringSecurityCourse.persistence.entity.util.RolePermission;
+import com.cursos.api.SpringSecurityCourse.persistence.entity.util.RoleEnum;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,7 +20,8 @@ public class User implements UserDetails {
     private String username;
     private String name;
     private String password;
-    @Enumerated(EnumType.STRING)
+    @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
 
     @Override
@@ -30,14 +30,14 @@ public class User implements UserDetails {
         if(role.getPermissions() == null) return null;
 
         List<SimpleGrantedAuthority> authorities = role.getPermissions().stream()
-                .map(each -> each.name())
+                .map(each -> each.getOperation().getName())
                 .map(each -> new SimpleGrantedAuthority(each))
 //                .map(each -> {
 //                    String permission = each.name();
 //                    return new SimpleGrantedAuthority(permission);
 //                })
                 .collect(Collectors.toList());
-        authorities.add(new SimpleGrantedAuthority("ROLE_" +  this.role.name()));
+        authorities.add(new SimpleGrantedAuthority("ROLE_" +  this.role.getName()));
         return authorities;
     }
 

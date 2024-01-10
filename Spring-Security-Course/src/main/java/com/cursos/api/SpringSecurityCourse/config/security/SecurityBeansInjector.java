@@ -1,7 +1,7 @@
 package com.cursos.api.SpringSecurityCourse.config.security;
 
 import com.cursos.api.SpringSecurityCourse.exception.ObjectNotFoundException;
-import com.cursos.api.SpringSecurityCourse.persistence.repository.UserRepository;
+import com.cursos.api.SpringSecurityCourse.persistence.repository.security.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
