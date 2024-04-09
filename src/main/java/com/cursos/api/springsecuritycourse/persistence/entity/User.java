@@ -1,7 +1,6 @@
 package com.cursos.api.springsecuritycourse.persistence.entity;
 
 import com.cursos.api.springsecuritycourse.persistence.util.Role;
-import com.cursos.api.springsecuritycourse.persistence.util.RolePermission;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,7 +15,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(unique = true)
     private String username;
     private String name;
     private String password;
