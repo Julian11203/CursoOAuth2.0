@@ -2,9 +2,16 @@ package com.cursos.api.springsecuritycourse.service.auth;
 
 import com.cursos.api.springsecuritycourse.dto.RegisteredUser;
 import com.cursos.api.springsecuritycourse.dto.SaveUser;
+import com.cursos.api.springsecuritycourse.dto.auth.AuthenticationRequest;
+import com.cursos.api.springsecuritycourse.dto.auth.AuthenticationResponse;
 import com.cursos.api.springsecuritycourse.persistence.entity.User;
 import com.cursos.api.springsecuritycourse.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -16,6 +23,8 @@ public class AuthenticationService {
     private UserService userService;
     @Autowired
     private JwtService jwtService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
     public RegisteredUser registerOneCustomer(SaveUser newUser) {
         User user = userService.registerOneCustomer(newUser);
         RegisteredUser userDto = new RegisteredUser();
@@ -36,5 +45,27 @@ public class AuthenticationService {
         extraClaims.put("role", user.getRole());
         extraClaims.put("authorities", user.getAuthorities());
         return extraClaims;
+    }
+
+    public AuthenticationResponse login(AuthenticationRequest autRequest) {
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                autRequest.getUsername(), autRequest.getPassword()
+        );
+        authenticationManager.authenticate(authentication);
+        UserDetails user = userService.findOneByUsername(autRequest.getUsername()).get();
+        String jwt = jwtService.generateToken(user, generateExtraClaims((User) user));
+        AuthenticationResponse authRsp = new AuthenticationResponse();
+        authRsp.setJwt(jwt);
+        return authRsp;
+    }
+
+    public boolean validateToken(String jwt) {
+        try{
+            jwtService.extractUsername(jwt);
+            return true;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 }
