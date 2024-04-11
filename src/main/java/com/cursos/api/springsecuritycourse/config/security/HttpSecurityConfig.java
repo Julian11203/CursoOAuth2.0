@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configurers.AuthorizeH
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -37,12 +38,13 @@ public class HttpSecurityConfig {
         return filterChain;
     }
     private static void buildRequestMatchers(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry authReqConfig) {
-    /*
-    Autorizacion de endpoints de products
-    */
+        /*
+        Autorizacion de endpoints de products
+        */
         authReqConfig.requestMatchers(HttpMethod.GET, "/products")
                 .hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
-        authReqConfig.requestMatchers(HttpMethod.GET, "/products/{productId}")
+//        authReqConfig.requestMatchers(HttpMethod.GET, "/products/{productId}")
+        authReqConfig.requestMatchers(RegexRequestMatcher.regexMatcher(HttpMethod.GET, "/products/[0-9]*"))
                 .hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
         authReqConfig.requestMatchers(HttpMethod.POST, "/products")
                 .hasRole(Role.ADMINISTRATOR.name());
@@ -51,9 +53,9 @@ public class HttpSecurityConfig {
         authReqConfig.requestMatchers(HttpMethod.PUT, "/products/{productId}/disabled")
                 .hasRole(Role.ADMINISTRATOR.name());
 
-                    /*
-                    Autorizacion de endpoints de categories
-                    */
+        /*
+        Autorizacion de endpoints de categories
+        */
         authReqConfig.requestMatchers(HttpMethod.GET, "/categories")
                 .hasAnyRole(Role.ADMINISTRATOR.name(), Role.ASSISTANT_ADMINISTRATOR.name());
         authReqConfig.requestMatchers(HttpMethod.GET, "/categories/{categoryId}")
