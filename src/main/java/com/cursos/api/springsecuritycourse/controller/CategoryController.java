@@ -1,7 +1,9 @@
 package com.cursos.api.springsecuritycourse.controller;
 
 import com.cursos.api.springsecuritycourse.dto.SaveCategory;
+import com.cursos.api.springsecuritycourse.dto.SaveProduct;
 import com.cursos.api.springsecuritycourse.persistence.entity.Category;
+import com.cursos.api.springsecuritycourse.persistence.entity.Product;
 import com.cursos.api.springsecuritycourse.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ public class CategoryController {
 
     @Autowired
     private CategoryService categoryService;
+
     @PreAuthorize("hasAuthority('READ_ALL_CATEGORIES')")
     @GetMapping
     public ResponseEntity<Page<Category>> findAll(Pageable pageable){
@@ -32,6 +35,7 @@ public class CategoryController {
 
         return ResponseEntity.notFound().build();
     }
+
     @PreAuthorize("hasAuthority('READ_ONE_CATEGORY')")
     @GetMapping("/{categoryId}")
     public ResponseEntity<Category> findOneById(@PathVariable Long categoryId){
@@ -44,18 +48,21 @@ public class CategoryController {
 
         return ResponseEntity.notFound().build();
     }
+
     @PreAuthorize("hasAuthority('CREATE_ONE_CATEGORY')")
     @PostMapping
     public ResponseEntity<Category> createOne(@RequestBody @Valid SaveCategory saveCategory){
         Category category = categoryService.createOne(saveCategory);
         return ResponseEntity.status(HttpStatus.CREATED).body(category);
     }
+
     @PreAuthorize("hasAuthority('UPDATE_ONE_CATEGORY')")
     @PutMapping("/{categoryId}")
     public ResponseEntity<Category> updateOneById(@PathVariable Long categoryId, @RequestBody @Valid SaveCategory saveCategory){
         Category category = categoryService.updateOneById(categoryId, saveCategory);
         return ResponseEntity.ok(category);
     }
+
     @PreAuthorize("hasAuthority('DISABLE_ONE_CATEGORY')")
     @PutMapping("/{categoryId}/disabled")
     public ResponseEntity<Category> disableOneById(@PathVariable Long categoryId){

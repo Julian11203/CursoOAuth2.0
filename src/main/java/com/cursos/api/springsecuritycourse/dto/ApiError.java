@@ -11,7 +11,6 @@ public class ApiError implements Serializable {
     private String message;
     private String url;
     private String method;
-
     @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime timestamp;
 
@@ -55,3 +54,4 @@ public class ApiError implements Serializable {
         this.method = method;
     }
 }
+

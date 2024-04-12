@@ -17,22 +17,27 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
+
     @Autowired
     private RoleService roleService;
+
     @Override
-    public User registerOneCustomer(SaveUser newUser) {
+    public User registrOneCustomer(SaveUser newUser) {
         validatePassword(newUser);
 
         User user = new User();
         user.setPassword(passwordEncoder.encode(newUser.getPassword()));
         user.setUsername(newUser.getUsername());
         user.setName(newUser.getName());
+
         Role defaultRole = roleService.findDefaultRole()
-                .orElseThrow(() -> new ObjectNotFoundException("Role not found. Default Role"));
+                        .orElseThrow(() -> new ObjectNotFoundException("Role not found. Default Role"));
         user.setRole(defaultRole);
 
         return userRepository.save(user);
@@ -44,11 +49,15 @@ public class UserServiceImpl implements UserService {
     }
 
     private void validatePassword(SaveUser dto) {
+
         if(!StringUtils.hasText(dto.getPassword()) || !StringUtils.hasText(dto.getRepeatedPassword())){
-            throw new InvalidPasswordException("Password don't match");
+            throw new InvalidPasswordException("Passwords don't match");
         }
+
         if(!dto.getPassword().equals(dto.getRepeatedPassword())){
-            throw new InvalidPasswordException("Password don't match");
+            throw new InvalidPasswordException("Passwords don't match");
         }
+
     }
+
 }

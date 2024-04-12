@@ -1,6 +1,6 @@
 package com.cursos.api.springsecuritycourse.exception;
 
-public class InvalidPasswordException extends RuntimeException{
+public class InvalidPasswordException extends RuntimeException {
     public InvalidPasswordException() {
     }
 

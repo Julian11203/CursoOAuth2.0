@@ -9,4 +9,5 @@ import org.springframework.security.access.prepost.PreAuthorize;
 public interface ProductRepository extends JpaRepository<Product, Long> {
 //    @PreAuthorize("hasAuthority('READ_ALL_PRODUCTS')")
     Page<Product> findAll(Pageable pageable);
+
 }

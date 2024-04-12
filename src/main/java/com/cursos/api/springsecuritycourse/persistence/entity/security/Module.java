@@ -7,10 +7,13 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Module {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     private String basePath;
 
     public Long getId() {

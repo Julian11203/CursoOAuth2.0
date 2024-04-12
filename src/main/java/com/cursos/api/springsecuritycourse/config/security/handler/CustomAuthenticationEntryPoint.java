@@ -17,12 +17,17 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
+
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+
         accessDeniedHandler.handle(request, response, new AccessDeniedException("Access Denied"));
+
     }
 }

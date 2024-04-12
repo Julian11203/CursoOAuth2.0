@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
+
         ApiError apiError = new ApiError();
         apiError.setBackendMessage(accessDeniedException.getLocalizedMessage());
         apiError.setUrl(request.getRequestURL().toString());
@@ -36,5 +37,6 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
         String apiErrorAsJson = objectMapper.writeValueAsString(apiError);
 
         response.getWriter().write(apiErrorAsJson);
+
     }
 }

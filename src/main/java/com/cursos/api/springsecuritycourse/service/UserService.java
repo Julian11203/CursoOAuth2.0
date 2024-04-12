@@ -6,6 +6,7 @@ import com.cursos.api.springsecuritycourse.persistence.entity.security.User;
 import java.util.Optional;
 
 public interface UserService {
-    User registerOneCustomer(SaveUser newUser);
+    User registrOneCustomer(SaveUser newUser);
+
     Optional<User> findOneByUsername(String username);
 }

@@ -1,10 +1,12 @@
 package com.cursos.api.springsecuritycourse.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.io.Serializable;
 
 public class SaveUser implements Serializable {
+
     @Size(min = 4)
     private String name;
     private String username;

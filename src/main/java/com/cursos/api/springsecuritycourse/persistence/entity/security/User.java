@@ -1,6 +1,6 @@
 package com.cursos.api.springsecuritycourse.persistence.entity.security;
 
-import com.cursos.api.springsecuritycourse.persistence.util.roleEnum;
+import com.cursos.api.springsecuritycourse.persistence.util.RoleEnum;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,13 +13,16 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name = "\"user\"")
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(unique = true)
     private String username;
     private String name;
     private String password;
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
@@ -27,7 +30,9 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if(role == null) return null;
+
         if(role.getPermissions() == null) return null;
+
         List<SimpleGrantedAuthority> authorities = role.getPermissions().stream()
                 .map(each -> each.getOperation().getName())
                 .map(each -> new SimpleGrantedAuthority(each))
@@ -36,6 +41,7 @@ public class User implements UserDetails {
 //                    return new SimpleGrantedAuthority(permission);
 //                })
                 .collect(Collectors.toList());
+
         authorities.add(new SimpleGrantedAuthority("ROLE_" + this.role.getName()));
         return authorities;
     }
