@@ -1,5 +1,6 @@
 package com.cursos.api.springsecuritycourse.persistence.entity.security;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -10,7 +11,8 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    @OneToMany(mappedBy = "role")
+    @JsonIgnore
+    @OneToMany(mappedBy = "role", fetch = FetchType.EAGER)
     private List<GrantedPermission> permissions;
 
     public Long getId() {
