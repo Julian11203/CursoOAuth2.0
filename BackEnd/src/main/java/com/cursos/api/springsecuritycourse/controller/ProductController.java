@@ -16,7 +16,7 @@ import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
-
+//@CrossOrigin
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -36,7 +36,7 @@ public class ProductController {
 
         return ResponseEntity.notFound().build();
     }
-
+//    @CrossOrigin(origins = "https://www.google.com")
     @PreAuthorize("hasAuthority('READ_ONE_PRODUCT')")
     @GetMapping("/{productId}")
     public ResponseEntity<Product> findOneById(@PathVariable Long productId){
