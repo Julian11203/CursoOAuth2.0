@@ -9,10 +9,11 @@ import org.springframework.security.oauth2.server.authorization.settings.TokenSe
 
 import java.time.Duration;
 import java.util.Date;
-import java.util.stream.Collectors;
 
 public class ClientAppMapper {
+
     public static RegisteredClient toRegisteredClient(ClientApp clientApp){
+
         RegisteredClient client = RegisteredClient.withId(clientApp.getClientId())
                 .clientId(clientApp.getClientId())
                 .clientSecret(clientApp.getClientSecret())
@@ -39,6 +40,8 @@ public class ClientAppMapper {
                         .requireProofKey(clientApp.isRequiredProofKey())
                         .build())
                 .build();
+
         return client;
     }
+
 }

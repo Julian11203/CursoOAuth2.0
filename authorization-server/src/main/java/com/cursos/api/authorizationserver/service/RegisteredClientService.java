@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RegisteredClientService implements RegisteredClientRepository {
+
     @Autowired
     private ClientAppRepository clientAppRepository;
+
     @Override
     public void save(RegisteredClient registeredClient) {
 

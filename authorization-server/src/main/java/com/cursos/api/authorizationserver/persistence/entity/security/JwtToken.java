@@ -4,15 +4,20 @@ import jakarta.persistence.*;
 
 import java.util.Date;
 
-@Entity
+//@Entity
 public class JwtToken {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(length = 2048)
     private String token;
+
     private Date expiration;
+
     private boolean isValid;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
