@@ -22,8 +22,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
 
-@Component
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+//@Component
+public class JwtAuthenticationFilter {
 
     @Autowired
     private JwtService jwtService;
@@ -33,7 +33,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Autowired
     private JwtTokenRepository jwtRepository;
 
-    @Override
+//    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String jwt = jwtService.extractJwtFromRequest(request);
         if(jwt == null || !StringUtils.hasText(jwt)){
