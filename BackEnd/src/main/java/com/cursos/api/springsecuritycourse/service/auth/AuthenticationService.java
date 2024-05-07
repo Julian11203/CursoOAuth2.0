@@ -38,7 +38,7 @@ public class AuthenticationService {
     private JwtTokenRepository jwtRepository;
 
     public RegisteredUser registerOneCustomer(SaveUser newUser) {
-        User user = userService.registrOneCustomer(newUser);
+        User user = userService.registerOneCustomer(newUser);
         String jwt = jwtService.generateToken(user, generateExtraClaims(user));
         saveUserToken(user, jwt);
         RegisteredUser userDto = new RegisteredUser();

@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     private RoleService roleService;
 
     @Override
-    public User registrOneCustomer(SaveUser newUser) {
+    public User registerOneCustomer(SaveUser newUser) {
         validatePassword(newUser);
 
         User user = new User();
