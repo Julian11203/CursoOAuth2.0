@@ -19,13 +19,6 @@
         <maven.compiler.target>21</maven.compiler.target>
     </properties>
 	<dependencies>
-		<!--DEV-TOOLS-->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-devtools</artifactId>
-			<scope>runtime</scope>
-			<optional>true</optional>
-		</dependency>
 		<!--OAUTH2.0-->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
